@@ -1,65 +1,67 @@
-def get_largest_prime_below(n):
-    for i in range(2, n):
-        k = 1
-        for d in range(2, n // 2):
-            if(i % d == 0):
-                k = 0
-        if (k == 1):
-            a = i
-    return a
+def isPrime(n):
+    if n < 2:
+        return False
+    else:
+        for i in range(2, n//2 + 1):
+            if n % i == 0:
+                return False
+    return True
 
+
+def get_goldbach(n):
+    for i in range(2, n//2):
+        if isPrime(i) and isPrime(n-i):
+            return i, n-i
+
+def test_get_goldbach():
+    assert get_goldbach(32) == (3, 29)
+    assert get_goldbach(30) == (7, 23)
+    assert get_goldbach(20) == (3,17)
+
+
+def get_largest_prime_below(n):
+    for i in range(n, 0, -1):
+        if isPrime(i):
+            return i
+    return -1
 
 def test_get_largest_prime_below():
-    assert get_largest_prime_below(20) == 19
-    assert get_largest_prime_below(100) == 97
-    assert get_largest_prime_below(54) == 53
+    assert get_largest_prime_below(74) == 73
+    assert get_largest_prime_below(5) == 3
 
 
-test_get_largest_prime_below()
-
-
-def is_palindrome(n) -> bool:
-
+def is_palindrome(n):
+    copien = n
     inv = 0
-    x = n
-    while (x != 0):
-        inv = inv * 10
-        inv = inv + (x % 10)
-        x = x // 10
-    if (inv == n):
+    while copien > 0:
+        inv = inv * 10 + copien % 10
+        copien = copien//10
+    if n == inv:
         return True
-    return False
+    else:
+        return False
 
 
-def test_is_palindrome():
-    assert is_palindrome(121) == True
-    assert is_palindrome(23432) == True
-    assert is_palindrome(123) == False
-
-
-def show_menu():
-    print('''
-        1. Largest prime
-        2. Palindrome
-        x. Iesire
-        ''')
-
-
-def main():
+if __name__ == '__main__':
     while True:
-        show_menu()
-        cmd = input("Comanda:")
-        if cmd == '1':
-            n = int(input("Introduceti n="))
-            print(get_largest_prime_below(n))
+        test_get_goldbach()
+        #test_get_largest_prime_below()
+        print("1.verificarea conjecturii lui Goldbach")
+        print("2.determina ulimul nr prim mai mic decat un nr citit")
+        print("3.verifcare daca un nr e palindrom")
+        print("4.iesire")
+        optiune = input("dati optiune:")
+        if optiune == "1":
+            numar1 = int(input("dati nr:"))
+            print(get_goldbach(numar1))
+        elif optiune == "2":
+            numar2 = int(input("dati nr:"))
+            print(get_largest_prime_below(numar2))
+        elif optiune == "3":
+            numar3 = int(input("dati nr:"))
+            print(is_palindrome(numar3))
+        elif optiune == "4":
+            break
+
         else:
-            if cmd == '2':
-                n = int(input("Introduceti n="))
-                print(is_palindrome(n))
-            elif cmd == 'x':
-                break
-            else:
-                print("Comanda invalida")
-
-
-main()
+            print("optiune gresita")
